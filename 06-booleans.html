@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripple vs Double equals </title>
+</head>
+<body>
+    <script>
+        /*
+        What's the difference between double equals vs tripple equals?
+        Double equals: check value only, it will convert the elementsbeing compared to the same type and compare values only.
+        Tripple : checks type and value, if type and value isnt the same then when compared they will be evaluated as false.
+        */
+        let num = '5';
+        let num2 = 5;
+        console.log(num2 === num ); // FALSE
+        console.log(num2 == num); // TRUE
+
+        //IN CONCLUSION, it is better to use tripple equals as it will save time from fixing bugs, and use double equals when there is a strong use case (for example when an API can interpret both a string and number based on value).
+
+
+    </script>
+</body>
+</html>

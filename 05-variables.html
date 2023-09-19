@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables in JS</title>
+</head>
+<body>
+    <script>
+        /*
+        Let: let variables are block scoped, meaning it is accessible within a section of code in {}. You can update let variables but not redeclare them within their scope, meaning if a variable with the same name is declared outside the scope there will be no error.
+
+        What is hoisting in let? A mechanism where let declarations are pushed to the top of their scope, however they are not initialized(unlike var, where they are initialized as undefined) therefore if you try to use a variable or function before their declaration then you will get a reference error.*/
+        {
+            let var1 = 3;
+            var1 += 3;
+            console.log(var1);
+        }
+
+        {
+            let var1 = 3;
+            var1 += 3;
+            console.log(var1);
+        }
+
+        {
+            //console.log(var1); // Here is an example of a reference error
+            let var1 = 3;
+            var1 += 3;
+        }
+
+        /* 
+        Const: cons variables maintain constant values. Const variables are block scoped. Const variables cannot be updated or re-declared meaning every count declaration must be initialized at time of declaration.
+        
+        Is there a change in behavior when declaring objects as const? Yes! The object itself cannot be updated or re-declared, however the object’s properties (attributes and methods) could be updated. 
+        
+        What is hosting in const? A mechanism where const declarations are pushed to the top of their scope, but will not be initialized therefore using them before their declaration will result in an error.
+         */
+
+        //console.log(variable);  <-- HOISTING IN CONST EXAMPLE, will result in error
+        const variable = 'Snake';
+        //const variable = 'Turtle';   <-- NOT VALID 
+        const greeting = {
+            message: 'Say Hi' ,
+            times : 4
+        }
+
+        greeting.message = 'Say Hello instead';
+
+        /*
+        Const: cons variables maintain constant values. Const variables are block scoped. Const variables cannot be updated or re-declared meaning every count declaration must be initialized at time of declaration.
+
+        Is there a change in behavior when declaring objects as const? Yes! The object itself cannot be updated or re-declared, however the object’s properties (attributes and methods) could be updated. 
+        
+        What is hosting in const? A mechanism where const declarations are pushed to the top of their scope, but will not be initialized therefore using them before their declaration will result in an error.
+        */
+
+        console.log('1'+'2');
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5 Exercise</title>
+</head>
+<body>
+    <button onclick="
+        calculation += '1';
+        ">1</button>
+
+    <button onclick="
+    calculation += '2';
+    ">2</button>
+
+    <button onclick="
+    calculation += '3';
+    ">3</button>
+    
+    <button onclick="
+    calculation += '+';
+    ">+</button>
+
+    <button onclick=" 
+    console.log(`Result = ${eval(calculation)}`);  // CAUTION, when using eval() do not get input from user because malware can be easily injected. Don't use often
+    ">=</button>
+
+    <script>
+        let calculation = '';
+    </script>
+</body>
+</html>
