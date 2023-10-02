@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All about functions</title>
+</head>
+<body>
+
+    <script>
+        /*
+        FUNCTION DECLARATION: the JavaScript interpreter hoists the entire function declaration to the top of the current scope and calling the fucnction prior to declaration. Thsi only works because it is a fucntion declaration not  a fucntion expression.
+        */
+
+        function add(number){
+            return number+number;
+        }
+        console.log(`Through a function declaration, we are calling a fucntion that adds a number twice:  ${add(5)}`);
+
+        /*
+        FUNCTION EXPRESSION: it is recommended to end function expressions with a semi-colon
+        */
+
+        // Function expression with no name; AKA an anonymous fucntion
+        let multiply = function(a,b){
+            return a*b;
+        };
+        console.log(`Calling a function through a function expression: ${multiply(2,3)}`);
+        
+        //Function expression with a name 
+        let factorial = function fac(n){
+            return ( n<2? 1: n * fac(n-1) );
+        };
+        console.log(`Calling recursive function through a named function expression: ${factorial(5)}`);
+
+
+        //Function that takes a function expression as an argument:
+        function map(f, a) {
+        const result = new Array(a.length);
+        for (let i = 0; i < a.length; i++) {
+            result[i] = f(a[i]);
+        }
+        return result;
+        }
+
+        const cube = function (i) {
+            return i * i * i;
+        };
+        let numbers = [0, 1, 2, 5, 10];
+        console.log(`Here is an array with all values of another array raised to the 3rd power: ${map(cube,numbers)}`);
+        
+        /*
+        INMIDIATELY INVOKED FUNCTION EXPRESSION: 
+        */
+
+        (function(){
+            console.log("IIFE");
+        })();     
+        
+
+        /*
+        FUNCTION CONSTRUCTOR: the Function() constructor creates Function objects dynamically, suffers from security. functions created using the function constructor are globally scoped and can be called right after creating them by adding "();" to the end.
+        */
+
+        const sum = new Function('a','b','return a+b'); // The 'new' keyword is optional to create a Function instance, the very last argument passed is the 'function body', the previous argument will be the parameters as if it were to be a regular function
+        console.log(sum(4,2));
+
+
+    
+        /*
+        ARROW FUNCTIONS: the fucntion keyword isn't necessary because the '=>' is an alias of the keyword, you need to assign the fucntion to a variable. Arrow functions are treaded as expression and therefore the semicolon is optional at the end of an arrow fucntion. Arrow functions are always anonymous. 
+        */
+
+        let sum2=(a,b) => a+b// This is the same as: 
+        console.log(sum2(5,5)); 
+        /*
+        function sum(a,b){
+            return a+b;
+        }
+        */
+
+        let randomNumber = () => Math.random() // This is the same as:
+        console.log(randomNumber());
+        /*
+        function randomNumber(){
+            return Math.random();
+        }
+        */
+
+        
+        let person = {
+            firstName: 'Sonny',
+            lastName: 'Moposita',
+        }
+        let displayFullName = (person) => `${person.firstName} ${person.lastName}`;
+        console.log(displayFullName(person));
+        /*
+        Explanation of the above code: We have a person object, and an arrow fucntion that is using interpolation to return the full name "Sonny Moposita" based on the value store on the person object 
+        */
+
+        /*
+        NESTED FUNCTIONS: 
+        */
+
+        //First let's learn about fucntion referencing:
+        function outfunction(){
+            function innerfunction(){
+                console.log("inside");
+            }
+            return innerfunction();
+        }
+        const newFunction= outfunction; // newFunction is holding a reference to the outfucntion();
+        newFunction(); // will print "inside"
+
+        /*Introduction to closures:
+        So what are closures? It's beasically 2 nested fucntions in which the inner fucntion has access to all variables and parameters of its outer fucntion, even when the outer function has returned. One thing to keep in mind about closures in functions is that the genral rule that all paremters and local variables of a fucntion after execution are destroyed DOES NOT hold in closures. The reason why is because there has to be at least 1 reference on such parameters or local variables in order order for them to not be destroyed after execution until the entire script has executed. This enables us to call the inner fucntion from the global scope even after the outer function has executed. A closure is created when the inner function is somehow made available to any scope outside the outer function.
+        for more info: https://www.pluralsight.com/guides/javascript-closures*/
+        function outside(n){
+            //const x=5;
+            function inside(x){
+                return x+n; // notice how the parameter n is refered in the inside fucntion, the inside fucntion is then reference in "ref" out in the global scope
+            }
+            return inside; // the outside fucntion is returning a reference to the inside fucntion as an object, there is no call to the inside fucntion
+        }
+
+        const ref = outside(3); // the variable ref is 
+        console.log(ref(5)); // prints 8
+        console.log(outside(100)(9)); // prints 109
+
+        
+        //Naming conflict example in closures:
+        function afuera(){
+            const x=5;
+            function adentro(x) {
+                return x * 2;
+            }
+            return adentro;
+        }
+        
+        let ref2= afuera(); 
+        console.log(ref2(80)); // the variable x in the adentro fucntion will be of higher presence than the x variable defined in the afuera scope de due to the reference to adentro. Variables declared to a fucntion scope take precedence over those with the same name from the outter scopes, so instead of setting adentro's parameter to equal 5 it'll take the one being given through the argument. 
+
+        /*
+        HOW TO CALL BACK an Immidiately invoked function expression: 
+        */
+
+        const callIt = (function() {
+            const apiCode = "hg^z#";
+            return function(){
+                return apiCode; // returning an inner fucntion defined as a function expression
+            }
+        }
+        )();
+
+        console.log(callIt());
+
+    </script>
+    
+</body>
+</html>

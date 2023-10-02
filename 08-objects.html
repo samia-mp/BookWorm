@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects</title>
+</head>
+<body>
+    <script>
+        /*
+        OBJECT INITIALIZER: a {} containing property names and values for the definition of an object, separated by commas
+
+        What is an object literal? it is a data type that can store the properties of an object instance, the syntax to create such object is like a key value pair enclosed in {} brackets
+        */
+       const obj1 = {
+        a:'foo',
+        b: 42,
+        c: {}, // c is assigned an empty object
+        d: {myProp: 12}, // d is assigned another object 
+        e: () => 56+100, 
+        'f': 'weird',
+       };
+       console.log(obj1.d.myProp);
+       console.log(obj1.e());
+       console.log(obj1['f']);
+       console.log(obj1.f);
+
+
+       // Example of a short hand assignment: obj2 will be assigned the values of variables a-c to it's corresponding property values
+       const a = 'foo';
+       const b = 42;
+       const c = {};
+       const d = {myProp: 12};
+
+       const obj2={a,b,c}   
+       console.log(obj2.a === {a}.a); // True, {a} is a shorthand property assignment creating an object with the property value 'a' that is equal to foo when accessed. 
+
+       // Can you have repeated property names in a class? Yes, but the last property will be the definitive one. Unless it is a private class
+
+       /* 
+       METHOD DEFINITIONS: 
+       */
+
+       const obj3 = {
+        property: function(parameters){},
+        get property(){},
+        set property(value){}, // this is a predifined function
+        //property(parameters){}, THIS IS A SHORT HAND PROPERTY ASSIGNMENT FOR A METHOD
+        log: ["example","log"],
+       };
+
+       /*
+       GETTER METHODS: A getter must have 0 parameters
+       */
+
+       const obj4 = {
+        randomV:'Lisa',
+        log: ["example", "test"],
+        get latest() {
+            if (this.log.length === 0) return undefined;
+            return this.log;//[this.log.length - 1];
+        },
+        property: function(){console.log(`HEY ${this.randomV}`)},
+        };
+
+        obj4.property(); // prints HEY Lisa
+        console.log(obj4.property); // prints function body 
+        console.log(obj4.log);// prints contents of array
+        console.log(obj4.latest);// This one is special, it'll return undefined or the array elements
+        /*
+        let func1 = function(){
+            let num= 6;
+            let func2 = function(){
+                console.log(num);
+            }
+            return func2();
+        }
+
+        func1();
+        */
+
+        /*
+        USING GETTERS IN CLASSES:
+        In classes you dont need a comma separator between methods
+        */
+
+        class ClassWithGetSet{
+
+            #msg = 'Hello'; // the "#" makes this private class field, meaning it can only be modified from within the class
+
+            
+            get msg(){
+                return this.#msg;   
+            }
+
+            
+            set msg(x){
+                this.#msg = `Hello ${x}`;
+            }
+
+        }
+
+        const instance = new ClassWithGetSet(); //creating an istance of an object
+        console.log(instance.msg); // calling the getter method, notice the () aren't needed as we would normally call a regular method because a getter method is self invoking
+        instance.msg = 'Sandra'; // A setter method is also self invoking and we call it through an assignment.
+        console.log(instance.msg);
+
+        /*
+       Code I had issues with: 
+
+       class ClassWithGetSet{
+            msg = 'Hello';
+            get msg(){
+                return this.msg;   
+            }
+
+            set msg(x){
+                this.msg = `Hello ${x}`;
+            }
+        }
+
+        instance.msg = 'Sandra'; // A setter method is also self invoking and we call it through an assignment.
+        console.log(instance.msg)
+
+        This ended up printing 'Sandra',
+        Why???? because I'm not even accessing the setter since msg is public i could directly edit them just just creating an instance. 
+
+        According to MDN: 
+        Getter properties are defined on the prototype property of the class and are thus shared by all instances of the class.
+        Thus, when looking up the property, it finds the instance's before the getter/setter pair. You're never reaching them.
+        
+        */
+
+        const user = {
+            _name: '',
+            set name(value) {
+                if (typeof value !== 'string') {
+                throw new Error('Name must be a string');
+                }
+                _name = value;
+            },
+        };
+
+        user._name = 'a';
+        console.log(user._name);
+
+        const person = {
+            firstName: 'Mosh',
+            lastName: 'Hamedani',
+            get fullName(){
+                return `${firstName} ${lastName}`;
+            },
+
+            set fullName(value){
+                const parts = value.split(' ');
+                this.firstName = parts[0];
+                this.lastName= parts[1];
+            }
+        };
+
+        
+    </script>
+    
+</body>
+</html>

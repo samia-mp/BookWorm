@@ -10,66 +10,34 @@
     <p>Rock Paper Scissors</p>
     
     <button onclick="
-    let number1 = Math.random();
-    gameItem = picker(number1);
-    //let number;
-    switch (gameItem){
-        case 'Rock': 
-            matchResult = 'Tie';
-            break;
-        case 'Paper': 
-            matchResult = 'You lose';
-            break;
-        case 'Scissors': 
-            matchResult = 'You win';
-            break;
+    {
+    const computerPick= picker();
+    const matchResult = gameItem(computerPick, 'Rock');
+
+    console.log(`You picked Rock, the computer picked ${computerPick}. ${matchResult}.`);
     }
-    console.log(`You picked Rock, the computer picked ${gameItem}. ${matchResult}.`);
     ">Rock</button>
 
     <button onclick="
     {
-        let number1 = Math.random();
-        gameItem = picker(number1);
-        //let number;
-        switch (gameItem){
-            case 'Rock': 
-                matchResult = 'You win';
-                break;
-            case 'Paper': 
-                matchResult = 'Tie';
-                break;
-            case 'Scissors': 
-                matchResult = 'You lose';
-                break;
-        }
+    const computerPick= picker();
+    const matchResult = gameItem(computerPick, 'Paper');
+    console.log(`You picked Paper, the computer picked ${computerPick}. ${matchResult}.`);
     }
-    console.log(`You picked Paper, the computer picked ${gameItem}. ${matchResult}.`);
     ">Paper</button>
 
     <button onclick="
     {
-        let number1 = Math.random();
-        gameItem = picker(number1);
-        //let number;
-        switch (gameItem){
-            case 'Rock': 
-                matchResult = 'You lose';
-                break;
-            case 'Paper': 
-                matchResult = 'You win';
-                break;
-            case 'Scissors': 
-                matchResult = 'Tie';
-                break;
-        }
+    const computerPick= picker();
+    const matchResult = gameItem(computerPick, 'Scissors');
+    console.log(`You picked Scissors, the computer picked ${computer}. ${matchResult}.`);
     }
-    console.log(`You picked Scissors, the computer picked ${gameItem}. ${matchResult}.`);
     ">Scissors</button>
 <script>
 
-let result; 
-function picker(computerPick){
+function picker(){
+    let result; 
+    let computerPick = Math.random();
     console.log(computerPick);
     if(computerPick >=0 && computerPick <= 1/3)
         result = 'Rock';
@@ -81,9 +49,43 @@ function picker(computerPick){
     return result;
     }
 
+function gameItem(computerPick, humanPick){
+    if (humanPick === 'Rock'){
+        if(computerPick === 'Rock'){
+            return 'Tie';
+        }
+        else if (computerPick === 'Scissors')
+            return 'You win';
+        else 
+            return 'You lose';
+    }
+
+    else if (humanPick === 'Scissors'){
+        if(computerPick === 'Scissors'){
+            return 'Tie';
+        }
+        else if (computerPick === 'Paper')
+            return 'You win';
+        else 
+            return 'You lose';
+    }
+
+    else{
+        //meaning the human picked paper
+        if(computerPick === 'Paper'){
+            return 'Tie';
+        }
+        else if (computerPick === 'Rock')
+            return 'You win';
+        else 
+            return 'You lose';
+
+    }
+}
+
 //let number = Math.random(); 
-let matchResult;
-let gameItem;
+//let matchResult;
+//let gameItem;
 </script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8i</title>
+</head>
+<body>
+    <button onclick="
+        playGame('heads');
+    ">heads</button>
+
+    <button onclick="
+        playGame('tails');
+    ">tails</button>
+
+    <button onclick="
+        score.wins = 0;
+        score.losses = 0;
+        localStorage.setItem('score',JSON.stringify(score));
+    ">Reset</button>
+
+    <script>
+        /*
+        let score = {
+            wins: 0 ,
+            losses: 0 ,
+        };*/
+
+        let score = JSON.parse(localStorage.getItem('score'));
+        const playGame = (userChoice) => {
+            //let score = JSON.parse(localStorage.getItem('score'));
+
+            let randomNumber = Math.random();
+            let computerChoice ;
+            computerChoice = randomNumber<=1/2 ? 'heads': 'tails';
+            let result = (userChoice === computerChoice)? 'You win': 'You lose';
+
+            if(userChoice === computerChoice){
+                score.wins+=1;
+            }
+            else 
+                score.losses+=1;
+            
+            localStorage.setItem('score',JSON.stringify(score));
+
+            console.log(`The computer chose ${computerChoice}, You chose ${userChoice}, ${result}`);
+            console.log(`Wins= ${score.wins}, Losses: ${score.losses}`);
+        } 
+    </script>
+</body>
+</html> 
