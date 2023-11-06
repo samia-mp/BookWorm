@@ -32,6 +32,7 @@
     <p class="js-moves"></p>
 
     <p class="js-score"></p>
+    <p class="js-test"></p>
 
 
     <button onclick="
@@ -48,15 +49,19 @@
 
     
 <script>
-
+    
     const score = JSON.parse(localStorage.getItem('score')) || {
         wins:0,
         loses:0,
         ties:0,
-    };
-     // the JSON syntax is convertex back the JavaScript Object Syntax in order for the rest of the code to use the score object if it exists, otherwise it is assigned a default object to score.
+    }; // It is important to give a default value even if an object or variable isn't forcefully removed from local storage because when the the page loads for the first and the JS engine reads the script some all fucntions are read and you might be calling an uninitalized object or variable leading to possible errors or calling a key in local storage that wasn't even created yet.
+    // the JSON syntax is convertex back the JavaScript Object Syntax in order for the rest of the code to use the score object if it exists, otherwise it is assigned a default object to score.
 
-     updateScoreElement();//This is placed here so that the score shows without having to click on the buttons first, it shows as soon as the page is loaded
+    
+    document.querySelector('.js-test').innerHTML = 'Hello';
+    const test = JSON.parse(localStorage.getItem('test'));
+
+    updateScoreElement();//This is placed here so that the score shows without having to click on the buttons first, it shows as soon as the page is loaded
 
 
      function pickComputerMove(){
@@ -116,9 +121,12 @@
                 matchResult = 'You lose';}
 
         }
-        
+    //document.querySelector('.js-test').innerHTML = 'Hello';
+    //let test1 = JSON.stringify(document.querySelector('.js-test').innerHTML) ;
     document.querySelector('.js-result').innerHTML = matchResult;
     //document.querySelector('.js-moves').innerHTML = `You: ${humanPick} | Computer: ${computerMove}`;
+    console.log(document.querySelector('.js-test').innerHTML);
+    localStorage.setItem('test', JSON.stringify(test));
     updateScoreElement();
     localStorage.setItem('score',JSON.stringify(score)); //place the score object in local storage but in order to do this we must convert the object to a JSON syntax(strings only). the benefit of storing the object in local storage is that the property variables will not get set back to 0 when the page is refreshed
 
@@ -128,6 +136,7 @@
     console.log(`Loses: ${score.loses}, Wins: ${score.wins}, Ties: ${score.ties}`);
     }
 
+    
     function updateScoreElement(){
         document.querySelector('.js-score').innerHTML=`Loses: ${score.loses}, Wins: ${score.wins}, Ties: ${score.ties}`;
     }

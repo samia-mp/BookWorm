@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResultsPage</title>
+    <link rel="stylesheet" type="text/css" href="bookResults.css">
+    <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+
+</head>
+<body>
+    <div class="header">
+
+        <div class="section1">
+            <p class="logo">BookWorm</p>
+        </div>
+
+        <div class="section2">
+            <form action="bookResults.html" class="searchBar" onsubmit="toUpdateSearch();" >
+                <input type="text" id="secondSearch"  placeholder="Search for a book...">
+                <button type="submit"><img src="search.png" alt="the search button"></button>
+            </form>
+        </div>
+            
+        <div class="section3">
+            <button>Login</button>
+            <button>Sign Up</button>
+        </div>
+    </div>
+
+    <div id="content"></div>
+
+
+    <script>
+        function toUpdateSearch(){
+
+        let firstSearchValue = localStorage.getItem('firstSearch');
+        let secondSearchValue = document.getElementById('secondSearch').value;
+        firstSearchValue = secondSearchValue;
+        localStorage.setItem('firstSearch', secondSearchValue);
+        }
+    </script>
+    <script src="bookResults.js"></script>
+</body>
+</html>

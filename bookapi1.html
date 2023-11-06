@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books API Example</title>
+  
+    <script type="text/javascript">
+      function tosubmit(){
+        let mytext = document.getElementById('mytext').value;
+
+        localStorage.setItem('mytext', mytext);
+        return true;
+      }
+    </script>
+  </head>
+  <body >
+    <form action="bookapi2.html" name="myform" onsubmit="tosubmit();">
+      <input type="text" id="mytext" name="data">
+      <input type="submit" value="Submit">
+    </form>
+
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="homePage.css">
+    <title>Welcome to BookWorm!</title>
+    <link rel="stylesheet" type="text/css" href="homePage.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Autour+One&display=swap" rel="stylesheet">
+    <script type="text/javascript">
+        function tosubmit(){
+            let firstSearch = document.getElementById('firstSearch').value;
+            localStorage.setItem('firstSearch',firstSearch);
+            return true;
+        }
+    </script>
+    
+</head>
+<body>
+
+    <div> 
+        <div class="homepage-buttons">
+            <button>Login</button>
+            <button>Sign Up</button>
+        </div>
+
+
+        <div class="container">
+            <p class="website-name">BookWorm</p>
+            <form action="bookResults.html" class="searchBar" onsubmit="tosubmit();" >
+                <input type="text" id="firstSearch"  placeholder="Search for a book...">
+                <button type="submit"><img src="search.png" alt="the search button"></button>
+        
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

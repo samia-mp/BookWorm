@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books API Example 2</title>
+
+
+    <!-- Including the google API javascript client library -->
+    <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+    <!--
+    <script type="text/javascript">
+        google.books.load();
+    function initialize() {
+        var viewer = new google.books.DefaultViewer(document.getElementById('content'));
+        viewer.load('ISBN:' + localStorage.getItem('mytext'));
+    }
+
+      google.books.setOnLoadCallback(initialize);
+
+    </script>
+    -->
+    <script>
+        function start(){
+
+            /*the gapi.client.init fucntion initializes the Google books API with my apiKey and loads the discovery document*/
+            gapi.client.init({
+                'apiKey': 'AIzaSyCc6gZwjBm2hDgyJGgUA_aFyM3KbfzGwGQ',
+                'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/books/v1/rest'],
+            }).then( function(){
+                /*Executes the API request and returns a promise.
+                  The method name gapi.client.books.volumes.list makes an API request to the Google Books API. It'll search for books based 
+                  on the query AKA "q" making sure the 'intitle' template string gets the value from the locally stored data 'mytext' and matches books to that title. 
+                */
+                return gapi.client.books.volumes.list({
+                    q: `intitle:${localStorage.getItem('mytext')}`,
+                });
+            }).then(function(response){
+                /*
+                Will return a promise as well.
+                In the case that the API call was successful:
+                */
+                console.log(response.result.items);
+                let bookArray = response.result.items;
+                let contentDiv = document.getElementById('content');
+
+                if(bookArray){
+                    bookArray.forEach(function(book){
+                            let thumbnailLink = book.volumeInfo.imageLinks.thumbnail;
+
+                            let thumbnailImage = document.createElement('img');
+                            thumbnailImage.src = thumbnailLink;
+
+                            contentDiv.appendChild(thumbnailImage);
+                        });
+                }
+
+            },function(reason){
+                /*
+                In the case the API call was unsucessful:
+                */
+                alert('Error: '+ reason.result.error.message);
+            });
+
+
+        };
+
+        gapi.load('client',start);
+    </script>
+</head>
+<body>
+    <div id="content" style="width: 600px; height: 500px; background-color: darkgrey; display: flex;"></div>
+    
+</body>
+</html>
