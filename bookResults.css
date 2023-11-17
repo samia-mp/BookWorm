@@ -66,3 +66,32 @@ width: 10%;
     border-style: solid;
     width: 10%;
 }
+
+/*The following css styles will apply to way the books are displayed on the BookResults.html page
+ Remainder: Every book-container is already in a flex-box, created in js script.
+*/
+
+#content{
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.book-container{
+    width: 700px;
+    background-color: white;
+    padding: 10px auto;
+    box-shadow: -9px 3px 10px rgb(3, 136, 214);
+}
+
+.bookFactsContainer{
+    flex: 1 ;
+    margin: 15px;
+}
+
+.bookTitle{
+    font-weight: bold;
+}
+

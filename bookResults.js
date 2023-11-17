@@ -1,3 +1,71 @@
+
+function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo, viewAbilityState){
+    /*Creating a div element with class name : bookFactsContainer*/
+    let bookFactsContainer = document.createElement('div');
+    bookFactsContainer.className = 'bookFactsContainer';
+
+    /*Creating a <p> element with class name : bookTitle. As a child of the previous element, that will contain the book title as text*/
+    let bookTitle = document.createElement('p');
+    bookTitle.innerText = `Title: ${titleInfo}`;
+    bookTitle.className = 'bookTitle';
+    bookFactsContainer.appendChild(bookTitle);
+
+    /*Creating a <p> element with class name : bookTitle. As a child of the 'bookFactsContainer', that will contain the book's author as text*/
+    if(authorsInfo && authorsInfo.length > 0 ){
+        let bookAuthors = document.createElement('p');
+        bookAuthors.innerText = `Author/s: ${authorsInfo.join(', ')}`;
+        bookAuthors.className = 'bookAuthors';
+        bookFactsContainer.appendChild(bookAuthors);
+    }
+
+    /*Creating a <p> element with class name : bookPublishedDate. As a child of the 'bookFactsContainer', that will contain the book's published date as text*/
+    let bookPublishedDate = document.createElement('p');
+    bookPublishedDate.innerText = `Publish Date: ${bookPublishedDateInfo}`;
+    bookPublishedDate.className = 'bookPublishedDate';
+    bookFactsContainer.appendChild(bookPublishedDate);
+
+    /*Calling the previewAbilityState*/
+    previewAvailability(viewAbilityState,bookFactsContainer);
+
+    /*Returning a reference of the the bookFactsContainer object*/
+    return bookFactsContainer;
+}
+
+
+/*The purpose of this fucntion is to check if a book is able to show a preview based on the viewAbility State, if it is then an input of type button will be created for the user to click and see the preview of a book*/
+function previewAvailability(viewAbilityState,bookFactsContainer){
+
+    if (viewAbilityState == 'PARTIAL' || viewAbilityState == 'FULL'){
+        let bookViewButton = document.createElement('input');
+    
+    Object.assign(bookViewButton, {
+        type: 'button',
+        value: 'View',
+        onclick: function(){
+            window.location = 'https://www.google.com/books/edition/Down_and_Out_in_the_Magic_Kingdom/gfg13CM_kU8C?hl=en&gbpv=1';
+        },
+    })
+        bookFactsContainer.appendChild(bookViewButton);
+    }
+}
+
+
+function createBookImageDiv(thumbnailLink){
+    /*Creating <div> elements where each book thumbnail will be placed */
+    let bookImageContainer = document.createElement('div');
+    bookImageContainer.className ='bookImageContainer';
+
+    /* Creating an <img> element, within the bookImagecontainer, where the book cover will be placed */
+
+    let bookImage = document.createElement('img');
+    bookImage.src = thumbnailLink;
+
+    bookImageContainer.appendChild(bookImage);
+
+
+    return bookImageContainer;
+}
+
 function start(){
     gapi.client.init({
         'apiKey': 'AIzaSyCc6gZwjBm2hDgyJGgUA_aFyM3KbfzGwGQ',
@@ -22,14 +90,42 @@ function start(){
 
         if(bookArray){
             bookArray.forEach(function(book){
-                if(book.volumeInfo && book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail){
+
+                
+                let thumbnailInfo = book.volumeInfo && book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail;
+                let authorsInfo = book.volumeInfo && book.volumeInfo.authors;
+                let titleInfo = book.volumeInfo && book.volumeInfo.title;
+                //let bookPublishedDate = book.volumeInfo && book.volumeInfo.PublishedDate;
+                
+                if(thumbnailInfo && titleInfo && authorsInfo){
+                    
                     let thumbnailLink = book.volumeInfo.imageLinks.thumbnail;
+                    let titleInfoLink = book.volumeInfo.title;
+                    let authorsInfoLink = book.volumeInfo.authors;
+                    let bookPublishedDateInfoLink = book.volumeInfo.publishedDate;
+                    
 
-                    let thumbnailImage = document.createElement('img');
-                    thumbnailImage.src = thumbnailLink;
+                    /*Appends a book container for a specified book. More <div> elements are being created*/
+                    let bookContainer = document.createElement('div');
+                    bookContainer.style.display = 'flex';
+                    bookContainer.className ='book-container';
+                    contentDiv.appendChild(bookContainer);
 
-                    contentDiv.appendChild(thumbnailImage);
+                    /*Appends a container for a book's image for a specified book under the book container. More <div> elements are being created*/
+                    let bookImageStructure = createBookImageDiv(thumbnailLink);
+                    bookContainer.appendChild(bookImageStructure);
+
+                    /*Appends a container for a book's factual information for a specified book under the book container. More <div> elements are being created*/
+                    let bookFactsStructure = createBookFactsContainer(titleInfoLink,authorsInfoLink,bookPublishedDateInfoLink,book.accessInfo.viewability);
+
+                    bookContainer.appendChild(bookFactsStructure);
+
+                    /**/
+                    console.log(book.accessInfo.viewability);
+                    console.log(book.volumeInfo.industryIdentifiers[1].identifier);
+                    /*let checkIfViewerExists = loadViewer()*/
                 }
+                
             });
         }
     },function(reason){
@@ -40,6 +136,9 @@ function start(){
     });
 };
 
-gapi.load('client',start);
 
-//localStorage.removeItem('mytext');
+
+ 
+
+
+gapi.load('client',start);
