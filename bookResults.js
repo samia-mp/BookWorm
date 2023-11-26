@@ -1,5 +1,5 @@
 
-function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo, viewAbilityState){
+function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo, viewabilityState, id){
     /*Creating a div element with class name : bookFactsContainer*/
     let bookFactsContainer = document.createElement('div');
     bookFactsContainer.className = 'bookFactsContainer';
@@ -25,7 +25,7 @@ function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo,
     bookFactsContainer.appendChild(bookPublishedDate);
 
     /*Calling the previewAbilityState*/
-    previewAvailability(viewAbilityState,bookFactsContainer);
+    previewAvailability(viewabilityState,bookFactsContainer, id);
 
     /*Returning a reference of the the bookFactsContainer object*/
     return bookFactsContainer;
@@ -33,16 +33,19 @@ function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo,
 
 
 /*The purpose of this fucntion is to check if a book is able to show a preview based on the viewAbility State, if it is then an input of type button will be created for the user to click and see the preview of a book*/
-function previewAvailability(viewAbilityState,bookFactsContainer){
+function previewAvailability(viewabilityState,bookFactsContainer,bookid){
 
-    if (viewAbilityState == 'PARTIAL' || viewAbilityState == 'FULL'){
+    if (viewabilityState == 'PARTIAL' || viewabilityState == 'FULL'){
         let bookViewButton = document.createElement('input');
     
     Object.assign(bookViewButton, {
         type: 'button',
-        value: 'View',
+        value: 'Preview',
+
+        /*window.location=bookViewer.html is same as: onclick='location.href=bookViewer.html. Using query strings to use a book's id as the value to the 'id' key.
+        */
         onclick: function(){
-            window.location = 'https://www.google.com/books/edition/Down_and_Out_in_the_Magic_Kingdom/gfg13CM_kU8C?hl=en&gbpv=1';
+            window.location = `bookViewer.html?id=${bookid}`;
         },
     })
         bookFactsContainer.appendChild(bookViewButton);
@@ -100,9 +103,11 @@ function start(){
                 if(thumbnailInfo && titleInfo && authorsInfo){
                     
                     let thumbnailLink = book.volumeInfo.imageLinks.thumbnail;
-                    let titleInfoLink = book.volumeInfo.title;
-                    let authorsInfoLink = book.volumeInfo.authors;
-                    let bookPublishedDateInfoLink = book.volumeInfo.publishedDate;
+                    let title = book.volumeInfo.title;
+                    let authors = book.volumeInfo.authors;
+                    let publishedDate = book.volumeInfo.publishedDate;
+                    let id = book.id;
+                    let viewabilityState = book.accessInfo.viewability;
                     
 
                     /*Appends a book container for a specified book. More <div> elements are being created*/
@@ -116,7 +121,7 @@ function start(){
                     bookContainer.appendChild(bookImageStructure);
 
                     /*Appends a container for a book's factual information for a specified book under the book container. More <div> elements are being created*/
-                    let bookFactsStructure = createBookFactsContainer(titleInfoLink,authorsInfoLink,bookPublishedDateInfoLink,book.accessInfo.viewability);
+                    let bookFactsStructure = createBookFactsContainer(title,authors,publishedDate,viewabilityState,id);
 
                     bookContainer.appendChild(bookFactsStructure);
 

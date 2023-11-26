@@ -1,12 +1,22 @@
+
+*{
+
+    margin: 0;
+    padding: 0;
+ }
+
+
 .header {
     display: flex;
     background-color:  rgb(13, 118, 115);
     /*justify-content:space-evenly;*/
     justify-content: space-between;
+    
 }
 
 .section1{
 display: flex;
+align-items: center;
 border-color: black;
 border-style: solid;
 width: 10%;
@@ -72,6 +82,8 @@ width: 10%;
 */
 
 #content{
+    padding-top: 30px;
+    padding-bottom: 30px;
     background-color: aquamarine;
     display: flex;
     flex-direction: column;
