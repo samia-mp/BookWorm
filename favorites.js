@@ -186,9 +186,30 @@ if (favoritesArray.length >=1){
                             let bookFactsStructure = createBookFactsContainer(title,authors,publishedDate,industryIdentifiers);
                             bookContainer.appendChild(bookFactsStructure);
 
-                            
-                            let stars=bookContainer.querySelectorAll('.starsContainer i');//hold a reference to the returned node list containing all selected elements
+                            //stars hold a reference to the returned node list containing all selected elements
+                            let stars=bookContainer.querySelectorAll('.starsContainer i');
                             addEventListenersToStars(stars);
+
+
+
+                            /*This what the HTML structure look like for every book:
+
+                            <div class="book-container" style="display:flex;">
+                                <div class="bookImageContainer">
+                                    <img src="...">
+                                </div>
+
+                                <div clas="bookFactsContainer">
+                                    <p class="bookTitle"> Title: ... </p>
+                                    <p class="bookAuthors"> Author/s: ... </p>
+                                    <p clas="bookPublishedDate"> Publish Date: ...</p>
+                                    <p>ISBN_10: ... </p>
+                                    <p>ISBN_13: ... </p>
+                                    <input type="button" value="Add to favorites">
+                                    <input type="button" value="Preview">
+                                </div>
+                            </div>
+                            */
                         }
                             
                     });
