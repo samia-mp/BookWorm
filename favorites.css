@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+ }
+
+ body{
+    background-color:  rgb(13, 118, 115);
+ }
+
+ .header{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1%;
+    padding: 1%;
+    background-color: rgb(13, 47, 46);
+ }
+
+ .header button{
+    padding: 0.5% 2%;
+    border-radius: 25px;
+    border: solid;
+    cursor: pointer;
+    width: 13vh;
+    height: 4vh;
+ }
+
+ .header button:hover{
+    background-color: rgb(177, 232, 230);
+ }
+
+ #content{
+    
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.book-container{
+    width: 700px;
+    background-color: white;
+    box-shadow: -9px 3px 10px rgb(3, 136, 214);
+}
+
+.bookFactsContainer{
+    flex: 1 ;
+    
+    margin: 15px;
+}
+
+
+.bookTitle{
+    font-weight: bold;
+}
+
+.removeButton:hover{
+    cursor: pointer;
+}
+
+.starsContainer i{
+    color: #e6e6e6;
+    border-color: black;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease;
+}
+
+.starsContainer i.active{
+    color: rgb(255, 196, 0);
+}
+
+
+

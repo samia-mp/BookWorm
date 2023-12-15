@@ -1,0 +1,16 @@
+
+.main-container{
+    background-image: url('homePage.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+ }
+
+ 

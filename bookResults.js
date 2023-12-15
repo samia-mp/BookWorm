@@ -1,38 +1,88 @@
 
-function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo, viewabilityState, id){
-    /*Creating a div element with class name : bookFactsContainer*/
+function createBookFactsContainer(titleInfo, authorsInfo, bookPublishedDateInfo, viewabilityState, id, industryIdentifiers){
+    /*Creating a div element with class name : bookFactsContainer.
+    <div class="bookFactsContainer""></div>
+    */
     let bookFactsContainer = document.createElement('div');
     bookFactsContainer.className = 'bookFactsContainer';
 
-    /*Creating a <p> element with class name : bookTitle. As a child of the previous element, that will contain the book title as text*/
+    /*Creating a <p> element with class name : bookTitle. As a child of the previous element, that will contain the book title as text.
+    <p class="bookTitle">Title: ...  </p>
+    */
     let bookTitle = document.createElement('p');
     bookTitle.innerText = `Title: ${titleInfo}`;
     bookTitle.className = 'bookTitle';
     bookFactsContainer.appendChild(bookTitle);
 
-    /*Creating a <p> element with class name : bookTitle. As a child of the 'bookFactsContainer', that will contain the book's author as text*/
-    if(authorsInfo && authorsInfo.length > 0 ){
+    /*Creating a <p> element with class name : bookTitle. As a child of the 'bookFactsContainer', that will contain the book's author as text.  
+    <p class="bookAuthors"> Author/s: ... </p>
+    */
+    if(authorsInfo.length > 0 ){
         let bookAuthors = document.createElement('p');
         bookAuthors.innerText = `Author/s: ${authorsInfo.join(', ')}`;
         bookAuthors.className = 'bookAuthors';
         bookFactsContainer.appendChild(bookAuthors);
     }
 
-    /*Creating a <p> element with class name : bookPublishedDate. As a child of the 'bookFactsContainer', that will contain the book's published date as text*/
+    /*Creating a <p> element with class name : bookPublishedDate. As a child of the 'bookFactsContainer', that will contain the book's published date as text
+    <p class="bookPlushedDate"> Publish Date: ... </p>
+    */
     let bookPublishedDate = document.createElement('p');
     bookPublishedDate.innerText = `Publish Date: ${bookPublishedDateInfo}`;
     bookPublishedDate.className = 'bookPublishedDate';
     bookFactsContainer.appendChild(bookPublishedDate);
 
-    /*Calling the previewAbilityState*/
+
+    /*Creating <p> elements: 
+    <p>ISBN_10: ...</p>
+    <p>ISBN_13: ...</p>
+    */
+    if(industryIdentifiers.length > 0){
+        
+        for(let i=0;i<=1;i++){
+            let bookIdentifiers = document.createElement('p');
+            bookIdentifiers.innerText = `${industryIdentifiers[i].type}: ${industryIdentifiers[i].identifier}`;
+            bookFactsContainer.appendChild(bookIdentifiers);
+        }
+    }
+
+
+    populateFavoriteArray(industryIdentifiers[0].identifier,bookFactsContainer,titleInfo);
+    
     previewAvailability(viewabilityState,bookFactsContainer, id);
 
-    /*Returning a reference of the the bookFactsContainer object*/
+    /*Returning the bookFactsContainer object*/
     return bookFactsContainer;
 }
 
+function populateFavoriteArray(book,bookFactsContainer,titleInfo){
+    /*Creates input*/
+    let addfavorite = document.createElement('input');
+    //bookFactsContainer.appendChild(addfavorite);
 
-/*The purpose of this fucntion is to check if a book is able to show a preview based on the viewAbility State, if it is then an input of type button will be created for the user to click and see the preview of a book*/
+    /*
+    Modifying the addFavorite object:
+    */
+    Object.assign(addfavorite,{
+        type :'button',
+        value :'Add to favorites',
+        onclick: function(){
+            let favorites = JSON.parse(localStorage.getItem('storedFavoritesArray'));
+            let index = favorites.indexOf(book);
+            console.log(index);
+            
+            if(index == -1){
+                favorites.push(book);
+                localStorage.setItem('storedFavoritesArray',JSON.stringify(favorites));
+                alert(`The book: ${titleInfo}, has been added to your favorites`);
+            }    
+        },
+    })
+
+    bookFactsContainer.appendChild(addfavorite);
+}
+
+/*The purpose of this function is to check if a book is able to show a preview based on the viewAbility State, if it is then an input of type button will be created for the user to click and see the preview of a book*/
 function previewAvailability(viewabilityState,bookFactsContainer,bookid){
 
     if (viewabilityState == 'PARTIAL' || viewabilityState == 'FULL'){
@@ -42,7 +92,7 @@ function previewAvailability(viewabilityState,bookFactsContainer,bookid){
         type: 'button',
         value: 'Preview',
 
-        /*window.location=bookViewer.html is same as: onclick='location.href=bookViewer.html. Using query strings to use a book's id as the value to the 'id' key.
+        /*window.location=bookViewer.html is same as: onclick='location.href=bookViewer.html'. Using query strings to use a book's id as the value to the 'id' key.
         */
         onclick: function(){
             window.location = `bookViewer.html?id=${bookid}`;
@@ -58,7 +108,9 @@ function createBookImageDiv(thumbnailLink){
     let bookImageContainer = document.createElement('div');
     bookImageContainer.className ='bookImageContainer';
 
-    /* Creating an <img> element, within the bookImagecontainer, where the book cover will be placed */
+    /* Creating an <img> element, within the bookImagecontainer object, where the book cover will be placed.
+    <img src="thumbnailLink">
+    */
 
     let bookImage = document.createElement('img');
     bookImage.src = thumbnailLink;
@@ -79,7 +131,6 @@ function start(){
           on the query AKA "q" making sure the 'intitle' template string gets the value from the locally stored data 'mytext' and matches books to that title. 
         */
         return gapi.client.books.volumes.list({
-            //q: `intitle:${localStorage.getItem('firstSearch')}`,
             q: `${localStorage.getItem('firstSearch')}`,
 
         });
@@ -98,9 +149,9 @@ function start(){
                 let thumbnailInfo = book.volumeInfo && book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail;
                 let authorsInfo = book.volumeInfo && book.volumeInfo.authors;
                 let titleInfo = book.volumeInfo && book.volumeInfo.title;
-                //let bookPublishedDate = book.volumeInfo && book.volumeInfo.PublishedDate;
+                let industryIdentifiersInfo = book.volumeInfo && book.volumeInfo.industryIdentifiers;
                 
-                if(thumbnailInfo && titleInfo && authorsInfo){
+                if(thumbnailInfo && titleInfo && authorsInfo && industryIdentifiersInfo){
                     
                     let thumbnailLink = book.volumeInfo.imageLinks.thumbnail;
                     let title = book.volumeInfo.title;
@@ -108,27 +159,45 @@ function start(){
                     let publishedDate = book.volumeInfo.publishedDate;
                     let id = book.id;
                     let viewabilityState = book.accessInfo.viewability;
+                    let industryIdentifiers = book.volumeInfo.industryIdentifiers;
                     
 
-                    /*Appends a book container for a specified book. More <div> elements are being created*/
+                    /*bookContainer hold a reference to the the new <div> element that was created and apped it under the parent <div>/contentDiv.
+                    <div class="book-container" style="display:flex"></div>
+                    */
                     let bookContainer = document.createElement('div');
                     bookContainer.style.display = 'flex';
                     bookContainer.className ='book-container';
                     contentDiv.appendChild(bookContainer);
 
-                    /*Appends a container for a book's image for a specified book under the book container. More <div> elements are being created*/
+                    /*bookImageStructure holds a reference to the newly created <div> elements that help display book's image by calling the createBookImageDiv() function.*/
                     let bookImageStructure = createBookImageDiv(thumbnailLink);
                     bookContainer.appendChild(bookImageStructure);
 
-                    /*Appends a container for a book's factual information for a specified book under the book container. More <div> elements are being created*/
-                    let bookFactsStructure = createBookFactsContainer(title,authors,publishedDate,viewabilityState,id);
-
+                    /*bookFacstsStructure holds a reference to the newly created <div> elements that help display book's image by calling the createBookFactsContainer() function.*/
+                    let bookFactsStructure = createBookFactsContainer(title,authors,publishedDate,viewabilityState,id,industryIdentifiers);
                     bookContainer.appendChild(bookFactsStructure);
 
-                    /**/
-                    console.log(book.accessInfo.viewability);
-                    console.log(book.volumeInfo.industryIdentifiers[1].identifier);
-                    /*let checkIfViewerExists = loadViewer()*/
+                    
+                    /*This what the HTML structure look like for every book:
+
+                    <div class="book-container" style="display:flex;">
+                        <div class="bookImageContainer">
+                            <img src="...">
+                        </div>
+
+                        <div clas="bookFactsContainer">
+                            <p class="bookTitle"> Title: ... </p>
+                            <p class="bookAuthors"> Author/s: ... </p>
+                            <p clas="bookPublishedDate"> Publish Date: ...</p>
+                            <p>ISBN_10: ... </p>
+                            <p>ISBN_13: ... </p>
+                            <input type="button" value="Add to favorites">
+                            <input type="button" value="Preview">
+                        </div>
+                    </div>
+                    */
+                    
                 }
                 
             });
@@ -142,8 +211,13 @@ function start(){
 };
 
 
-
- 
-
-
 gapi.load('client',start);
+
+/* This checks whether the array that will be storing the the favorite books is already in local storage or not, if no then it'll create an empty one */
+if(localStorage.getItem('storedFavoritesArray') == null){
+    let favoritesArray = [];
+    localStorage.setItem('storedFavoritesArray',JSON.stringify(favoritesArray));
+}
+
+
+

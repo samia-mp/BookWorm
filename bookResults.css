@@ -1,15 +1,15 @@
 
 *{
-
     margin: 0;
     padding: 0;
  }
 
-
+body{
+    background-color: rgb(68, 213, 177);
+}
 .header {
     display: flex;
     background-color:  rgb(13, 118, 115);
-    /*justify-content:space-evenly;*/
     justify-content: space-between;
     
 }
@@ -17,25 +17,23 @@
 .section1{
 display: flex;
 align-items: center;
-border-color: black;
-border-style: solid;
 width: 10%;
 }
 .logo{
     font-weight: bolder;
     font-size: 120%;
+    color: white;
 }
 
 .section2{
     display: flex;
     align-items: center;
-    border-color: black;
-    border-style: solid;
     width: 30%;
     min-width: 10%;
 }
 
 .searchBar{
+    
     border: 2px solid black;
     background-color: white;
     width: 100%;
@@ -43,7 +41,7 @@ width: 10%;
     display: flex;
     align-items: center;
     border-radius: 50px;
-    padding: 0.2% 1%;
+    
 }
 
 .searchBar input{
@@ -53,7 +51,7 @@ width: 10%;
     background: none;
     text-align: center;
     border-radius: 50px;
-    /*padding: 2% 2%;*/
+    
     font-size: 130%;
 }
 
@@ -72,9 +70,18 @@ width: 10%;
 .section3{
     display: flex;
     align-items: center;
-    border-color: black;
-    border-style: solid;
-    width: 10%;
+}
+
+.section3 button{
+    padding: 0.5% 2%;
+    border-radius: 25px;
+    border: solid;
+    cursor: pointer;
+    
+}
+
+.section3 button:hover{
+    background-color: rgb(177, 232, 230);
 }
 
 /*The following css styles will apply to way the books are displayed on the BookResults.html page
@@ -82,9 +89,9 @@ width: 10%;
 */
 
 #content{
+    
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: aquamarine;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,13 +101,21 @@ width: 10%;
 .book-container{
     width: 700px;
     background-color: white;
-    padding: 10px auto;
     box-shadow: -9px 3px 10px rgb(3, 136, 214);
 }
 
 .bookFactsContainer{
     flex: 1 ;
+    
     margin: 15px;
+}
+
+.bookFactsContainer input{
+    margin-left: 6px;
+}
+
+.bookFactsContainer input:hover{
+    cursor: pointer;
 }
 
 .bookTitle{

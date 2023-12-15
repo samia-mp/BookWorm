@@ -3,29 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Preview Page</title>
     
     <!-- Including the embedded viewer loader library -->
     <script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
     <link rel="stylesheet" type="text/css" href="bookViewer.css">
     <script src="bookViewer.js"></script>
-    <!-- 
-    <script type="text/javascript">
-      google.books.load();
-
-      function initialize() {
-        /*window.location.search will return the query string of the current page*/
-        var queryString = window.location.search;
-        console.log(queryString);
-        var urlParams = new URLSearchParams(queryString);
-        var bookId = urlParams.get('id'); // Get the book ID from the URL
-
-        var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
-        viewer.load(`${bookId}`);
-      }
-
-      google.books.setOnLoadCallback(initialize);
-    </script>  -->
 </head>
 <body>
     <div class="main-container">
